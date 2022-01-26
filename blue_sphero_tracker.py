@@ -1,6 +1,7 @@
 import cv2
 import sys
 import numpy as np
+# from IPython import embed
 
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
  
@@ -15,7 +16,7 @@ if __name__ == '__main__' :
     
     tracker = cv2.TrackerMIL_create()
 
-    if int(minor_ver) < 3:
+    if int(minor_ver) < 3 and int(major_ver) < 4:
         tracker = cv2.Tracker_create(tracker_type)
     else:
         if tracker_type == 'BOOSTING':
@@ -52,7 +53,7 @@ if __name__ == '__main__' :
         print ('Cannot read video file')
         sys.exit()
      
-    print("AAAA")
+    print("> read first frame >")
     # Define an initial bounding box
     bbox = (287, 183, 46, 42)
  
