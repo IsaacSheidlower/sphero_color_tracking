@@ -44,7 +44,6 @@ while True:
     timer = cv2.getTickCount()
 
     # Display FPS on frame
-    cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
 
     if circles is not None:
         # convert the (x, y) coordinates and radius of the circles to integers
@@ -57,9 +56,10 @@ while True:
             cv2.circle(output, (x, y), r, (0, 255, 0), 4)
             print("   r", r)
 
+        cv2.putText(output, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
         cv2.imshow("Circles", output)
     else:
-        print ('No circles found')
+        cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
         cv2.imshow("Circles", frame)
         # Exit if ESC pressed
 
