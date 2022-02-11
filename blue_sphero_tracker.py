@@ -59,6 +59,27 @@ if __name__ == '__main__' :
     # Uncomment the line below to select a different bounding box
     #bbox = cv2.selectROI(frame, False)
 
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower_blue = np.array([60,110,100])
+    upper_blue = np.array([130,255,255])
+
+    # Here we are defining range of bluecolor in HSV
+    # This creates a mask of blue coloured
+    # objects found in the frame.
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    #cv2.imshow('mask',mask)
+    res = cv2.bitwise_and(frame,frame, mask= mask)
+
+    res=cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
+
+    print("AAA")
+    ret,thresh = cv2.threshold(res,127,255,0)
+    im2,contours = cv2.findContours(thresh, 1, 2)
+    bbox = cv2.boundingRect(im2[0])
+    cv2.imshow("SSS", res)
+    #cnt = contours[0]
+    #M = cv2.moments(cnt)
+    #print( M )
     # Initialize tracker with first frame and bounding box
     ok = tracker.init(frame, bbox)
 
@@ -90,7 +111,7 @@ if __name__ == '__main__' :
         #gray = res
         #cv2.imshow('frame',frame)
         #cv2.imshow('mask',mask)
-        #cv2.imshow('res',res)
+        cv2.imshow('res',res)
 
         frame = res
         # Start timer
@@ -101,22 +122,22 @@ if __name__ == '__main__' :
  
         # Calculate Frames per second (FPS)
         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
- 
+        
         # Draw bounding box
         if ok:
             # Tracking success
             p1 = (int(bbox[0]), int(bbox[1]))
             p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
-            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+            cv2.rectangle(frame, p1, p2, (25,155,155), 2, 1)
         else :
             # Tracking failure
             cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
  
         # Display tracker type on frame
-        cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+        #cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
      
         # Display FPS on frame
-        cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+        #cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
         # Display result
         cv2.imshow("Tracking", frame)
  
