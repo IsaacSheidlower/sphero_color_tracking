@@ -27,7 +27,7 @@ if __name__ == '__main__' :
     #cv2.imshow('mask',mask)
     res = cv2.bitwise_and(frame,frame, mask= mask)
     gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
-    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+    gray = cv2.GaussianBlur(gray, (7, 7), 5)
     #res=cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
 
     shape = "unidentified"
@@ -50,5 +50,12 @@ if __name__ == '__main__' :
     p1 = (int(bbox[0]), int(bbox[1]))
     p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
     cv2.rectangle(res, p1, p2, (25,155,155), 2, 1)
+    
+    print(p1)
+    print(p2)
+    x_randCorr = np.random.randint(low=p1[0], high=p2[0])
+    y_randCorr = np.random.randint(low=p1[1], high=p2[1])
+    cv2.circle(res, (x_randCorr, y_randCorr), 20, (255,255, 255), thickness=-1)
+    
     cv2.imshow("SSS", res)
     cv2.waitKey()
